@@ -14,18 +14,23 @@ public class User implements Player {
 
 	/**
 	 * 콘솔로부터 세자리 수를 입력받아서 저장한다.
+	 * 
 	 * @throws IllegalArgumentException 잘못된 입력이 들어오면 발생시킨다.
 	 */
 	public void inputNumbers() throws IllegalArgumentException {
 		numbers.clear();
 		System.out.print(INPUT_MSG);
 		String[] input = readLine().split("");
+		checkInputIsNumber(readLine());
+
+		for (int i = 0; i < input.length; i++) {
+			numbers.add(Integer.parseInt(input[i]));
+		}
+
 		if (input.length != LENGTH_OF_NUMBERS) {
 			throw new IllegalArgumentException(ERR_INPUT_MSG);
 		}
-		for (String ch : input) {
-			numbers.add(convertToInteger(ch));
-		}
+
 		if (isOverlapped(numbers)) {
 			throw new IllegalArgumentException(ERR_INPUT_MSG);
 		}
@@ -35,9 +40,9 @@ public class User implements Player {
 		return numbers.size() != numbers.stream().distinct().count();
 	}
 
-	private static int convertToInteger(String ch) {
+	private static void checkInputIsNumber(String ch) {
 		try {
-			return Integer.parseInt(ch);
+			Integer.parseInt(ch);
 		} catch (NumberFormatException e) {
 			throw new IllegalArgumentException(ERR_INPUT_MSG);
 		}
